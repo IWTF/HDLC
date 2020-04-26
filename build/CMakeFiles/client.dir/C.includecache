@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/socket_IPC.h
+
+../include/tools.h
+
+/home/huangziwen/Desktop/HDLC/client.c
+stdio.h
+-
+stdlib.h
+-
+sys/socket.h
+-
+sys/un.h
+-
+string.h
+-
+stdbool.h
+-
+errno.h
+-
+unistd.h
+-
+pthread.h
+-
+tools.h
+/home/huangziwen/Desktop/HDLC/tools.h
+socket_IPC.h
+/home/huangziwen/Desktop/HDLC/socket_IPC.h
+

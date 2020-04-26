@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/huangziwen/Desktop/HDLC/Demo/./math/tools.h
+
+/home/huangziwen/Desktop/HDLC/Demo/main.c
+stdio.h
+-
+math.h
+-
+MathFunctions.h
+/home/huangziwen/Desktop/HDLC/Demo/MathFunctions.h
+./math/tools.h
+/home/huangziwen/Desktop/HDLC/Demo/./math/tools.h
+
+include/MathFunctions.h
+
