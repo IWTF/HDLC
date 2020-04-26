@@ -6,5 +6,5 @@ C_FLAGS =
 
 C_DEFINES = 
 
-C_INCLUDES = -I/home/huangziwen/Desktop/HDLC/include -I/home/huangziwen/Desktop/HDLC/src/../include 
+C_INCLUDES = -I/home/huangziwen/Desktop/HDLC_pri/include -I/home/huangziwen/Desktop/HDLC_pri/src/../include 
 

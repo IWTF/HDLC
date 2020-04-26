@@ -20,16 +20,13 @@ typedef uint8_t Address; /* 地址字段 */
  * PF   代表P/F
  * NR   代表N(R) / M
  **/
-typedef union /* 控制字段 */
+typedef struct /* 控制字段 */
 {
-	struct
-	{
-		unsigned int t_SM:4; /* 标志、N(S)、S/M 在收发时，需要特别处理 */
-		unsigned int PF:1;
-		unsigned int NR:3;
-	};
-	uint8_t control;
+	unsigned int t_SM:4; /* 标志、N(S)、S/M 在收发时，需要特别处理 */
+	unsigned int PF:1;
+	unsigned int NR:3;
 }Control;
+
 /** 
  * 信息字段变长，在发送时构造
  * 由于information是变长，

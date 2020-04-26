@@ -1,7 +1,7 @@
-/home/huangziwen/Desktop/HDLC/build/CMakeFiles/rebuild_cache.dir
-/home/huangziwen/Desktop/HDLC/build/CMakeFiles/edit_cache.dir
-/home/huangziwen/Desktop/HDLC/build/CMakeFiles/client.dir
-/home/huangziwen/Desktop/HDLC/build/CMakeFiles/server.dir
-/home/huangziwen/Desktop/HDLC/build/src/CMakeFiles/rebuild_cache.dir
-/home/huangziwen/Desktop/HDLC/build/src/CMakeFiles/edit_cache.dir
-/home/huangziwen/Desktop/HDLC/build/src/CMakeFiles/Funcs.dir
+/home/huangziwen/Desktop/HDLC_pri/build/CMakeFiles/rebuild_cache.dir
+/home/huangziwen/Desktop/HDLC_pri/build/CMakeFiles/edit_cache.dir
+/home/huangziwen/Desktop/HDLC_pri/build/CMakeFiles/client.dir
+/home/huangziwen/Desktop/HDLC_pri/build/CMakeFiles/server.dir
+/home/huangziwen/Desktop/HDLC_pri/build/src/CMakeFiles/rebuild_cache.dir
+/home/huangziwen/Desktop/HDLC_pri/build/src/CMakeFiles/edit_cache.dir
+/home/huangziwen/Desktop/HDLC_pri/build/src/CMakeFiles/Funcs.dir

@@ -21,7 +21,5 @@ int main(void) {
     if (listen(serverSocket, BACK_LOG) == -1) {//转为被动模式
         handleError("监听失败");
     }
-    while (true) {
-        handleRequest(serverSocket);
-    }
+    handleRequest(serverSocket);
 }

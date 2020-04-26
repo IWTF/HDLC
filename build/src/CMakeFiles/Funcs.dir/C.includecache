@@ -6,13 +6,47 @@
 
 #IncludeRegexTransform: 
 
+../include/HDLC_func.h
+frame_structure.h
+../include/frame_structure.h
+
+../include/frame_structure.h
+stdint.h
+-
+
 ../include/global.h
 
 ../include/socket_IPC.h
 
 ../include/tools.h
 
-/home/huangziwen/Desktop/HDLC/src/socket_IPC.c
+/home/huangziwen/Desktop/HDLC_pri/src/HDLC_func.c
+stdio.h
+-
+stdint.h
+-
+string.h
+-
+sys/socket.h
+-
+sys/un.h
+-
+string.h
+-
+stdbool.h
+-
+errno.h
+-
+unistd.h
+-
+tools.h
+/home/huangziwen/Desktop/HDLC_pri/src/tools.h
+global.h
+/home/huangziwen/Desktop/HDLC_pri/src/global.h
+HDLC_func.h
+/home/huangziwen/Desktop/HDLC_pri/src/HDLC_func.h
+
+/home/huangziwen/Desktop/HDLC_pri/src/socket_IPC.c
 stdio.h
 -
 stdlib.h
@@ -32,17 +66,19 @@ unistd.h
 pthread.h
 -
 global.h
-/home/huangziwen/Desktop/HDLC/src/global.h
+/home/huangziwen/Desktop/HDLC_pri/src/global.h
 tools.h
-/home/huangziwen/Desktop/HDLC/src/tools.h
+/home/huangziwen/Desktop/HDLC_pri/src/tools.h
+HDLC_func.h
+/home/huangziwen/Desktop/HDLC_pri/src/HDLC_func.h
 socket_IPC.h
-/home/huangziwen/Desktop/HDLC/src/socket_IPC.h
+/home/huangziwen/Desktop/HDLC_pri/src/socket_IPC.h
 
-/home/huangziwen/Desktop/HDLC/src/tools.c
+/home/huangziwen/Desktop/HDLC_pri/src/tools.c
 stdio.h
 -
 stdlib.h
 -
 tools.h
-/home/huangziwen/Desktop/HDLC/src/tools.h
+/home/huangziwen/Desktop/HDLC_pri/src/tools.h
 

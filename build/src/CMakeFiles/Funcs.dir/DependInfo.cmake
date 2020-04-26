@@ -4,8 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/huangziwen/Desktop/HDLC/src/socket_IPC.c" "/home/huangziwen/Desktop/HDLC/build/src/CMakeFiles/Funcs.dir/socket_IPC.c.o"
-  "/home/huangziwen/Desktop/HDLC/src/tools.c" "/home/huangziwen/Desktop/HDLC/build/src/CMakeFiles/Funcs.dir/tools.c.o"
+  "/home/huangziwen/Desktop/HDLC_pri/src/HDLC_func.c" "/home/huangziwen/Desktop/HDLC_pri/build/src/CMakeFiles/Funcs.dir/HDLC_func.c.o"
+  "/home/huangziwen/Desktop/HDLC_pri/src/socket_IPC.c" "/home/huangziwen/Desktop/HDLC_pri/build/src/CMakeFiles/Funcs.dir/socket_IPC.c.o"
+  "/home/huangziwen/Desktop/HDLC_pri/src/tools.c" "/home/huangziwen/Desktop/HDLC_pri/build/src/CMakeFiles/Funcs.dir/tools.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

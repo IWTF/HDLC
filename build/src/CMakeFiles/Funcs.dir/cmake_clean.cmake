@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Funcs.dir/HDLC_func.c.o"
   "CMakeFiles/Funcs.dir/socket_IPC.c.o"
   "CMakeFiles/Funcs.dir/tools.c.o"
   "libFuncs.pdb"

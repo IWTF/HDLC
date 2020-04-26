@@ -1,4 +1,4 @@
-# Install script for directory: /home/huangziwen/Desktop/HDLC/src
+# Install script for directory: /home/huangziwen/Desktop/HDLC_pri/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

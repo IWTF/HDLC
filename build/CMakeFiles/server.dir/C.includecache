@@ -10,7 +10,7 @@
 
 ../include/tools.h
 
-/home/huangziwen/Desktop/HDLC/server.c
+/home/huangziwen/Desktop/HDLC_pri/server.c
 stdio.h
 -
 stdlib.h
@@ -28,7 +28,7 @@ errno.h
 unistd.h
 -
 tools.h
-/home/huangziwen/Desktop/HDLC/tools.h
+/home/huangziwen/Desktop/HDLC_pri/tools.h
 socket_IPC.h
-/home/huangziwen/Desktop/HDLC/socket_IPC.h
+/home/huangziwen/Desktop/HDLC_pri/socket_IPC.h
 

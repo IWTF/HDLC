@@ -10,6 +10,7 @@
 
 #include "global.h"
 #include "tools.h"
+#include "HDLC_func.h"
 #include "socket_IPC.h"
 
 char path[] = "./namo_amitabha"; /* unix socket 通信使用的系统路径 */
@@ -17,25 +18,64 @@ char path[] = "./namo_amitabha"; /* unix socket 通信使用的系统路径 */
 ///////////////////////////////////////////////////////////////
 ////// 公共函数
 
+void show_menu() {
+    printf("--------------------menu----------------------\n");
+    printf("|\t1. 与对方建立HDLC连接\n");
+    printf("|\t2. 指定传输内容 (输入 3 文件名)\n");
+    printf("|\t3. 拆链\n");
+    printf("--------------------menu----------------------\n");
+}
+
 /* 线程执行函数，监听接收对方发来的消息 */
 void *pthread_recv(void *arg) {
-    int *socketfd = (int *)arg;
+    p_param *param = (p_param *)arg;
+    int socketfd = param->fd;
+
+    /* 等待两端建立HDLC连接 */
+    listenSIM(socketfd, param->dest);
+
+    /* HDLC连接建立成功后，才可以自由通信 */
     char buffer[BUFFER_SIZE];
     memset(buffer, 0, sizeof(buffer));
     int numberOfReaded = 0;
     while (true) {
-        numberOfReaded = recv(*socketfd, buffer, BUFFER_SIZE, 0); /*读取客户端进程发送的数据, 比发送的字节数多1（带回车） */
+        numberOfReaded = recv(socketfd, buffer, BUFFER_SIZE, 0); /*读取客户端进程发送的数据, 比发送的字节数多1（带回车） */
         sscanf(buffer, "%s\n", buffer); /* 将末尾的 回车 去掉 */
         buffer[numberOfReaded] = '\0'; /* 加上终止符，避免出错 */
         if (numberOfReaded == -1) {
             handleError("读取数据错误");
         } else if (numberOfReaded == 0) {
             printf("对端已经关闭\n");
-            close(*socketfd);
+            close(socketfd);
             pthread_exit((void *)NULL);
             // return (void*);
         }
         printf("收到对端进程数据长度为%s\n", buffer);
+    }
+}
+
+/* 线程执行函数，用于客户向服务器发送消息 */
+void *pthread_send(void *arg) {
+    p_param *param = (p_param *)arg;
+    int socketfd = param->fd;
+    char buffer[BUFFER_SIZE];
+    memset(buffer, 0, sizeof(buffer));
+    int numberOfSended;
+    while (true) {
+        numberOfSended = read(0, buffer, sizeof(buffer));
+        buffer[numberOfSended] = '\0';
+        if (numberOfSended < 0) {
+            handleError("发送数据错误");
+        } else {
+            if (strncmp(buffer, "quit", 4) == 0) {
+                printf("本机关闭连接\n");
+                close(socketfd);
+                pthread_exit((void *)NULL);
+            }
+        }
+        if (send(socketfd, buffer, strlen(buffer), 0) == -1) {
+            handleError("发送失败");
+        }
     }
 }
 
@@ -56,69 +96,51 @@ void bindToAddress(int socketfd) {
     }
 }
 
-/* socket IPC 通信的简单例子 */
-void echo(int socket) {
-	char buffer[BUFFER_SIZE];
-	memset(buffer, 0, sizeof(buffer));
-    int numberOfReaded, numberOfWrited = 0;
-    while (true) {
-        numberOfReaded = recv(socket, buffer, BUFFER_SIZE, 0);//读取客户端进程发送的数据
-        if (numberOfReaded == -1) {
-            handleError("读取数据错误");
-        } else if (numberOfReaded == 0) {
-            printf("客户端关闭连接\n");
-            close(socket);
-            return;
-        }
-        printf("收到对端进程数据长度为%d，开始echo", numberOfReaded);
-        if (numberOfReaded > 0) {
-            numberOfWrited = write(socket, buffer, numberOfReaded);//然后原版返回
-            printf("  写入的结果为%d\n", numberOfWrited);
-        }
-    }
-}
-
 
 /* 处理客户端的“连接”请求，非HDLC连接 */
 void handleRequest(int socketfd) {
     int childfd = accept(socketfd, NULL, NULL);//监听客户端的请求，没有请求到来的话会一直阻塞
+
     if (childfd == -1) {
         handleError("accept 错误");
     }
-    puts("client发起连接...");
-    // echo(socket); // 执行连接建立后的代码，这里是简单的打印接收内容
+    puts("socket IPC建立成功...");
+
+    /* 监听信道，但只有HDLC连接建立后， 可以正式通信 */
+    p_param param;
+    param.fd = childfd;
+    param.dest = 0;
+
     pthread_t tid1; 
+    pthread_create(&tid1, NULL, pthread_recv, (void *)&param);
+
+    /* 由用户选择，是否发起连接请求 */
+    while(true) {
+        bool connected = false;
+
+        show_menu();
+        char commend[30];
+        scanf("%s", commend);
+        if (commend[0] == '1') {
+            // 执行HDLC发送请求
+            initHDLC(childfd, 0);
+            break;
+        } else if (commend[0] == '2') {
+            // 发送指定文件的内容
+        } else if (commend[0] == '3') {
+            // 执行拆链
+        } else {
+            printf("请输入正确的指令\n");
+        }
+    }
+    
     pthread_t tid2;
-    pthread_create(&tid1, NULL, pthread_recv, (void *)&childfd);
-    pthread_create(&tid2, NULL, pthread_server_send, (void *)&childfd);
+    pthread_create(&tid2, NULL, pthread_send, (void *)&param);
     pthread_join(tid1, (void *)NULL);
     pthread_join(tid2, (void *)NULL);
     /* 这里没有处理 接受/发送的同时关闭， 后面根据HDLC拆链来设置 */
 }
 
-/* 线程执行函数，用于服务器向对方发送消息 */
-void *pthread_server_send(void *arg) {
-    int *childfd = (int *)arg;
-    char buffer[BUFFER_SIZE];
-    memset(buffer, 0, sizeof(buffer));
-    int numberOfSended;
-    while (true) {
-        numberOfSended = read(0, buffer, sizeof(buffer));
-        buffer[numberOfSended] = '\0';
-        if (numberOfSended < 0) {
-            handleError("发送数据错误");
-        } else {
-            if (strncmp(buffer, "quit", 4) == 0) {
-                printf("本机关闭连接\n");
-                close(*childfd);
-                pthread_exit((void *)NULL);
-            }
-        }
-        if (write(*childfd, buffer, strlen(buffer)) == -1) {
-            handleError("发送失败");
-        }
-    }
-}
 
 ///////////////////////////////////////////////////////////////
 ////// 客户端函数
@@ -134,26 +156,3 @@ void connectServer(int socketfd) {
     }
 }
 
-/* 线程执行函数，用于客户向服务器发送消息 */
-void *pthread_client_send(void *arg) {
-    int *socketfd = (int *)arg;
-    char buffer[BUFFER_SIZE];
-    memset(buffer, 0, sizeof(buffer));
-    int numberOfSended;
-    while (true) {
-        numberOfSended = read(0, buffer, sizeof(buffer));
-        buffer[numberOfSended] = '\0';
-        if (numberOfSended < 0) {
-            handleError("发送数据错误");
-        } else {
-            if (strncmp(buffer, "quit", 4) == 0) {
-                printf("本机关闭连接\n");
-                close(*socketfd);
-                pthread_exit((void *)NULL);
-            }
-        }
-        if (send(*socketfd, buffer, strlen(buffer), 0) == -1) {
-            handleError("发送失败");
-        }
-    }
-}

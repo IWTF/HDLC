@@ -5,14 +5,18 @@
 #define MAX_INFO_SIZE 64 /* 信息字段的最大size */
 #define CLIENT_ADDR 0x81
 #define SERVER_ADDR 0x82
-struct Window /* 只实现3位序号 */
+#define FRAME_SIZE 20
+
+typedef struct /* 只实现3位序号 */
 {
 	unsigned int beg; /* 滑动窗口起始指针 */
 	unsigned int end; /* 滑动窗口末尾指针 */
-	Window () {
-		this->beg = 0;
-		this->end = 7;
-	}
-};
+}Window;
+
+typedef struct
+{
+    int fd;
+    int dest;
+}p_param;
 
 #endif
