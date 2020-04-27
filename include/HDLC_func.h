@@ -4,7 +4,7 @@
 #include "frame_structure.h"
 
 /* 连接建立 */
-void U_Framing(char *frame, uint8_t t, int dest);
+int U_Framing(char *frame, uint8_t t, int dest);
 void initHDLC(int socketfd, int dest);
 void listenSIM(int socketfd, int dest);
 

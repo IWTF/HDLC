@@ -14,17 +14,10 @@
 #include "socket_IPC.h"
 
 char path[] = "./namo_amitabha"; /* unix socket 通信使用的系统路径 */
+bool menuState = true;
 
 ///////////////////////////////////////////////////////////////
 ////// 公共函数
-
-void show_menu() {
-    printf("--------------------menu----------------------\n");
-    printf("|\t1. 与对方建立HDLC连接\n");
-    printf("|\t2. 指定传输内容 (输入 3 文件名)\n");
-    printf("|\t3. 拆链\n");
-    printf("--------------------menu----------------------\n");
-}
 
 /* 线程执行函数，监听接收对方发来的消息 */
 void *pthread_recv(void *arg) {
@@ -32,7 +25,9 @@ void *pthread_recv(void *arg) {
     int socketfd = param->fd;
 
     /* 等待两端建立HDLC连接 */
-    listenSIM(socketfd, param->dest);
+    if (menuState)
+        listenSIM(socketfd, param->dest);
+    menuState = false;
 
     /* HDLC连接建立成功后，才可以自由通信 */
     char buffer[BUFFER_SIZE];
@@ -79,6 +74,7 @@ void *pthread_send(void *arg) {
     }
 }
 
+
 ///////////////////////////////////////////////////////////////
 ////// 服务端函数
 
@@ -111,23 +107,26 @@ void handleRequest(int socketfd) {
     param.fd = childfd;
     param.dest = 0;
 
-    pthread_t tid1; 
-    pthread_create(&tid1, NULL, pthread_recv, (void *)&param);
+    pthread_t tid1;
 
+    int commend;
     /* 由用户选择，是否发起连接请求 */
-    while(true) {
+    while(menuState) {
         bool connected = false;
 
         show_menu();
-        char commend[30];
-        scanf("%s", commend);
-        if (commend[0] == '1') {
+        scanf("%d", &commend);
+        if (commend == 1) {
             // 执行HDLC发送请求
             initHDLC(childfd, 0);
+            menuState = false;
+            pthread_create(&tid1, NULL, pthread_recv, (void *)&param);
             break;
-        } else if (commend[0] == '2') {
+        } else if (commend == 2) {
             // 发送指定文件的内容
-        } else if (commend[0] == '3') {
+            pthread_create(&tid1, NULL, pthread_recv, (void *)&param);
+            break;
+        } else if (commend == 3) {
             // 执行拆链
         } else {
             printf("请输入正确的指令\n");
@@ -154,5 +153,39 @@ void connectServer(int socketfd) {
     if (connect(socketfd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
         handleError("连接服务端失败");
     }
+
+    p_param param;
+    param.fd = socketfd;
+    param.dest = 1;
+
+    pthread_t tid1;
+
+    int commend;
+    /* 由用户选择，是否发起连接请求 */
+    while(menuState) {
+        bool connected = false;
+
+        show_menu();
+        scanf("%d", &commend);
+        if (commend == 1) {
+            // 执行HDLC发送请求
+            initHDLC(socketfd, 0);
+            pthread_create(&tid1, NULL, pthread_recv, (void *)&param);
+            break;
+        } else if (commend == 2) {
+            // 发送指定文件的内容
+            pthread_create(&tid1, NULL, pthread_recv, (void *)&param);
+            break;
+        } else if (commend == 3) {
+            // 执行拆链
+        } else {
+            printf("请输入正确的指令\n");
+        }
+    }
+
+    pthread_t tid2;
+    pthread_create(&tid2, NULL, pthread_send, (void *)&param);
+    pthread_join(tid1, (void *)NULL);
+    pthread_join(tid2, (void *)NULL);
 }
 

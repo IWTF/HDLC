@@ -6,16 +6,6 @@
 
 #IncludeRegexTransform: 
 
-../include/HDLC_func.h
-frame_structure.h
-../include/frame_structure.h
-
-../include/frame_structure.h
-stdint.h
--
-
-../include/global.h
-
 ../include/socket_IPC.h
 
 ../include/tools.h
@@ -41,10 +31,6 @@ pthread.h
 -
 tools.h
 /home/huangziwen/Desktop/HDLC_pri/tools.h
-global.h
-/home/huangziwen/Desktop/HDLC_pri/global.h
-HDLC_func.h
-/home/huangziwen/Desktop/HDLC_pri/HDLC_func.h
 socket_IPC.h
 /home/huangziwen/Desktop/HDLC_pri/socket_IPC.h
 

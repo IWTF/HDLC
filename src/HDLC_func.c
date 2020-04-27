@@ -35,10 +35,11 @@ const Address server_addr = SERVER_ADDR; /* 对端的地址，使用进程id */
  * params: frame 帧的首地址
  * 		   t     无编号帧控制字段的值
  *         dest  指明目标主机
+ * 返回值： 帧长度
  * 描述： 使用异步平衡方式，无编号帧控制字段自定义设置（因为找不到控制字段的相关资料）
  * 0xcb 是自己规定的SIM帧; 0xc6为确认帧（UA）
  */
-void U_Framing(char *frame, uint8_t t, int dest) {
+int U_Framing(char *frame, uint8_t t, int dest) {
 	FCS fcs;
 	char *frame_pter = frame;
 	
@@ -54,10 +55,15 @@ void U_Framing(char *frame, uint8_t t, int dest) {
 	uint8_t ctrl = t;
 	memcpy(frame, &ctrl, 1); frame+=1; 
 	/* information */
-	frame+=1; 
+	frame+=1; // 之前memset 0了，这里相当于一个 '\0'
 	/* FCS */
 	fcs = calFCS((unsigned char *)frame_pter, (unsigned int)(frame - frame_pter)); /* 计算校验和 */
+	
 	memcpy(frame, &fcs, 2);
+
+	printFrame(frame_pter, frame+2);
+
+	return (frame-frame_pter+2);
 }
 
 /**
@@ -70,16 +76,19 @@ void initHDLC(int socketfd, int dest) {
 	/* 构造SIM帧 */
 	char frame[FRAME_SIZE];
 	memset(frame, 0, sizeof(frame));
-	U_Framing(frame, 0xcb, dest);
+	int f_len = U_Framing(frame, 0xcb, dest);
+	
 	/* 发送SIM帧 */
-	if (send(socketfd, frame, FRAME_SIZE, 0) == -1) {
+	if (send(socketfd, frame, f_len, 0) == -1) {
 		handleError("发送失败");
 	}
 	printf("等待无编号确认帧（UA）\n");
 
 	/* 监听对方的确认帧 */
+	memset(frame, 0, sizeof(frame));
 	uint8_t myaddr;			 // 我的地址
-    uint16_t fcs;            // 解析帧校验位
+    uint16_t fcs;            // 计算得到的帧校验位
+    uint16_t fcs_recv;		 // 帧内解析出的fcs
 
     if (dest == 1)
     	myaddr = client_addr;
@@ -92,17 +101,25 @@ void initHDLC(int socketfd, int dest) {
             handleError("读取数据出错");
         }
         frame[numOfReaded]='\0';
-        if((frame[1]&0xff) != myaddr){ /* 判断帧的目的地址 */
+
+        /* 判断帧的目的地址 */
+        if((frame[1]&0xff) != myaddr){ 
         	printf("Its target is not me.\n");
             continue; // 不是发给“我”的，直接抛弃
         }
-        if((frame[2]&0xff) != 0xc6){ /* 判断是否为UA帧 */
+
+        /* 判断是否为UA帧 */
+        if((frame[2]&0xff) != 0xc6){ 
             printf("it's not a UA frame.\n");
             continue;
         }
         printf("接收到一个确认帧（UA）\n");
-        fcs = calFCS(frame, numOfReaded-1);
-        if(fcs != 0) { /* 帧出错，抛弃 */
+
+        /* FCS校验 */
+        fcs = calFCS(frame, numOfReaded-2);
+        memcpy(&fcs_recv, (frame+numOfReaded-2), 2);
+
+        if(fcs != fcs_recv) { /* 帧出错，抛弃 */
             printf("传输出错，CRC校验不通过,继续侦听UA帧\n");
             continue;
         }
@@ -120,7 +137,8 @@ void initHDLC(int socketfd, int dest) {
 void listenSIM(int socketfd, int dest) {
 	char frame[FRAME_SIZE];
 	memset(frame, 0, sizeof(frame));
-    uint16_t fcs;            // 解析帧校验位
+    uint16_t fcs;            // 计算得到的帧校验位
+    uint16_t fcs_recv;		 // 帧内解析出的fcs
 	uint8_t myaddr = server_addr;
 	if (dest == 1)
 		myaddr = client_addr;
@@ -132,27 +150,34 @@ void listenSIM(int socketfd, int dest) {
             handleError("读取数据出错");
         }
         frame[numOfReaded]='\0';
-        if((frame[1]&0xff) != myaddr){ /* 判断帧的目的地址 */
+
+		/* 判断帧的目的地址 */
+        if((frame[1]&0xff) != myaddr){ 
         	printf("Its target is not me.\n");
             continue; // 不是发给“我”的，直接抛弃
         }
-        if((frame[2]&0xff) != 0xcb){ /* 判断是否为UA帧 */
-            printf("it's not a UA frame.\n");
+
+        /* 判断是否为UA帧 */
+        if((frame[2]&0xff) != 0xcb){ 
+            printf("it's not a SIM frame.\n");
             continue;
         }
         printf("接收到一个请求帧（SIM）\n");
-        fcs = calFCS(frame, numOfReaded-1);
-        if(fcs != 0) { /* 帧出错，抛弃 */
+
+        /* 判断传输过程中是否有帧出错 */
+        fcs = calFCS(frame, numOfReaded-2); /* 这里计算FCS，带最后一字节 */
+        memcpy(&fcs_recv, (frame+numOfReaded-2), 2); /* 帧长度-2为FCS的位置 */
+        if(fcs != fcs_recv) { /* 帧出错，抛弃 */
             printf("传输出错，CRC校验不通过,继续侦听SIM帧\n");
             continue;
-        }
+        }	
         printf("接收到对端的请求帧！！\n");
         break;
 	}
 	/* 向对方发送确认帧 */
 	memset(frame, 0, sizeof(frame));
-	U_Framing(frame, 0xc6, dest);
-	if (send(socketfd, frame, FRAME_SIZE, 0) == -1) {
+	int f_len = U_Framing(frame, 0xc6, dest);
+	if (send(socketfd, frame, f_len, 0) == -1) {
 		handleError("发送失败");
 	}
 	printf("HDLC 链接建立成功\n");

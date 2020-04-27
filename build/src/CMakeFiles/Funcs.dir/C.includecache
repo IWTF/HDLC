@@ -79,6 +79,10 @@ stdio.h
 -
 stdlib.h
 -
+string.h
+-
+stdint.h
+-
 tools.h
 /home/huangziwen/Desktop/HDLC_pri/src/tools.h
 
