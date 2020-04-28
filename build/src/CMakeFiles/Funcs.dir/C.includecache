@@ -15,8 +15,12 @@ stdint.h
 -
 
 ../include/global.h
+stdint.h
+-
 
 ../include/socket_IPC.h
+global.h
+../include/global.h
 
 ../include/tools.h
 

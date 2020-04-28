@@ -14,7 +14,6 @@
 #include "socket_IPC.h"
 
 char path[] = "./namo_amitabha"; /* unix socket 通信使用的系统路径 */
-bool menuState = true;
 
 ///////////////////////////////////////////////////////////////
 ////// 公共函数
@@ -22,20 +21,13 @@ bool menuState = true;
 /* 线程执行函数，监听接收对方发来的消息 */
 void *pthread_recv(void *arg) {
     p_param *param = (p_param *)arg;
+
     int socketfd = param->fd;
-
-    /* 等待两端建立HDLC连接 */
-    if (menuState)
-        listenSIM(socketfd, param->dest);
-    menuState = false;
-
-    /* HDLC连接建立成功后，才可以自由通信 */
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE]; /* 收到的信息流 */
     memset(buffer, 0, sizeof(buffer));
     int numberOfReaded = 0;
     while (true) {
-        numberOfReaded = recv(socketfd, buffer, BUFFER_SIZE, 0); /*读取客户端进程发送的数据, 比发送的字节数多1（带回车） */
-        sscanf(buffer, "%s\n", buffer); /* 将末尾的 回车 去掉 */
+        numberOfReaded = recv(socketfd, buffer, BUFFER_SIZE, 0); /*读取客户端进程发送的数据 */
         buffer[numberOfReaded] = '\0'; /* 加上终止符，避免出错 */
         if (numberOfReaded == -1) {
             handleError("读取数据错误");
@@ -45,35 +37,87 @@ void *pthread_recv(void *arg) {
             pthread_exit((void *)NULL);
             // return (void*);
         }
-        printf("收到对端进程数据长度为%s\n", buffer);
+        // 数据校验，拆帧
+        printf("收到对端进程数据长度为%d\n", numberOfReaded);
+        divideBuf(buffer, numberOfReaded, param->source);
     }
 }
 
 /* 线程执行函数，用于客户向服务器发送消息 */
 void *pthread_send(void *arg) {
     p_param *param = (p_param *)arg;
+
     int socketfd = param->fd;
-    char buffer[BUFFER_SIZE];
+    char msg[BUFFER_SIZE];    /* 要发送的信息 */
+    char buffer[BUFFER_SIZE]; /* 信道中的信息流 */
+    memset(msg, 0, sizeof(msg));
     memset(buffer, 0, sizeof(buffer));
     int numberOfSended;
     while (true) {
-        numberOfSended = read(0, buffer, sizeof(buffer));
-        buffer[numberOfSended] = '\0';
+        numberOfSended = read(0, msg, sizeof(msg));
+        sscanf(msg, "%s\n", msg); /* 将末尾的 回车 去掉 */
+        msg[numberOfSended-1] = '\0';
         if (numberOfSended < 0) {
             handleError("发送数据错误");
         } else {
-            if (strncmp(buffer, "quit", 4) == 0) {
+            if (strncmp(msg, "quit", 4) == 0) {
                 printf("本机关闭连接\n");
                 close(socketfd);
                 pthread_exit((void *)NULL);
             }
         }
-        if (send(socketfd, buffer, strlen(buffer), 0) == -1) {
+        /* 进行组帧 */
+        int buf_len = splitInfo(msg, buffer, param->dest);
+        /* 模拟发送出的帧在信道上传输 */
+        if (send(socketfd, buffer, buf_len, 0) == -1) {
             handleError("发送失败");
         }
     }
 }
 
+/**
+ * HDLC通信开始前的准备，各主机确定自己的状态...(不知道怎麽描述了)
+ * params: p_param参数，具体内容看结构体定义
+ *
+ */
+void HDLC_option(p_param params) {
+    int commend;
+    bool connected = false;
+    /* 由用户选择，是否发起连接请求 */
+    while(true) {
+        show_menu();
+        scanf("%d", &commend);
+        if (commend == 1) {
+            // 执行HDLC发送请求
+            initHDLC(params);
+            break;
+        } else if (commend == 2) {
+            // 发送指定文件的内容
+            listenSIM(params);
+            break;
+        } else if (commend == 3) {
+            // 拆链
+        } else {
+            printf("请输入正确的指令\n");
+        }
+    }
+    
+    HDLC_start(params);
+}
+
+/** 
+ * 启动HDLC通信
+ * params: 进程id
+ * 描述： HDLC连接已建立，正式开始HDLC通信
+ **/
+void HDLC_start(p_param params) {
+    pthread_t tid1;
+    pthread_t tid2;
+    pthread_create(&tid1, NULL, pthread_recv, (void *)&params);
+    pthread_create(&tid2, NULL, pthread_send, (void *)&params);
+    pthread_join(tid1, (void *)NULL);
+    pthread_join(tid2, (void *)NULL);
+}
 
 ///////////////////////////////////////////////////////////////
 ////// 服务端函数
@@ -103,48 +147,24 @@ void handleRequest(int socketfd) {
     puts("socket IPC建立成功...");
 
     /* 监听信道，但只有HDLC连接建立后， 可以正式通信 */
-    p_param param;
-    param.fd = childfd;
-    param.dest = 0;
+    p_param params;
+    params.fd = childfd;
+    params.source = SERVER_ADDR;
+    params.dest = CLIENT_ADDR;
 
-    pthread_t tid1;
-
-    int commend;
-    /* 由用户选择，是否发起连接请求 */
-    while(menuState) {
-        bool connected = false;
-
-        show_menu();
-        scanf("%d", &commend);
-        if (commend == 1) {
-            // 执行HDLC发送请求
-            initHDLC(childfd, 0);
-            menuState = false;
-            pthread_create(&tid1, NULL, pthread_recv, (void *)&param);
-            break;
-        } else if (commend == 2) {
-            // 发送指定文件的内容
-            pthread_create(&tid1, NULL, pthread_recv, (void *)&param);
-            break;
-        } else if (commend == 3) {
-            // 执行拆链
-        } else {
-            printf("请输入正确的指令\n");
-        }
-    }
-    
-    pthread_t tid2;
-    pthread_create(&tid2, NULL, pthread_send, (void *)&param);
-    pthread_join(tid1, (void *)NULL);
-    pthread_join(tid2, (void *)NULL);
-    /* 这里没有处理 接受/发送的同时关闭， 后面根据HDLC拆链来设置 */
+    HDLC_option(params);
 }
 
 
 ///////////////////////////////////////////////////////////////
 ////// 客户端函数
 
-/* 与服务端建立连接 */
+/* 
+ * socket 通信建立过程 
+ * 客户端请求与服务端建立连接 
+ * params: socketfd 文件描述符
+ * 描述：此过程建立的仅仅是socket，HDLC通信还未开始
+ **/
 void connectServer(int socketfd) {
     struct sockaddr_un addr;
     addr.sun_family = AF_UNIX;
@@ -154,38 +174,11 @@ void connectServer(int socketfd) {
         handleError("连接服务端失败");
     }
 
-    p_param param;
-    param.fd = socketfd;
-    param.dest = 1;
+    p_param params;
+    params.fd = socketfd;
+    params.source = CLIENT_ADDR;
+    params.dest = SERVER_ADDR;
 
-    pthread_t tid1;
-
-    int commend;
-    /* 由用户选择，是否发起连接请求 */
-    while(menuState) {
-        bool connected = false;
-
-        show_menu();
-        scanf("%d", &commend);
-        if (commend == 1) {
-            // 执行HDLC发送请求
-            initHDLC(socketfd, 0);
-            pthread_create(&tid1, NULL, pthread_recv, (void *)&param);
-            break;
-        } else if (commend == 2) {
-            // 发送指定文件的内容
-            pthread_create(&tid1, NULL, pthread_recv, (void *)&param);
-            break;
-        } else if (commend == 3) {
-            // 执行拆链
-        } else {
-            printf("请输入正确的指令\n");
-        }
-    }
-
-    pthread_t tid2;
-    pthread_create(&tid2, NULL, pthread_send, (void *)&param);
-    pthread_join(tid1, (void *)NULL);
-    pthread_join(tid2, (void *)NULL);
+    HDLC_option(params);
 }
 

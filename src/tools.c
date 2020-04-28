@@ -35,9 +35,9 @@ void printFrame(char *f_beg, char *f_end) {
     tmp = *f_beg++;
     printf("Control: %02x\n", tmp);
 
-    printf("Information: \n");
+    printf("Information: ");
     for (; f_beg != (f_end-2); f_beg+=1)
-        printf("  %02x", *f_beg);
+        printf("%c", *f_beg);
     puts("");
 
     uint16_t fcs = 0;

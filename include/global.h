@@ -1,6 +1,8 @@
 #ifndef __GLOBAL_H__
 #define __GLOBAL_H__
 
+#include <stdint.h>
+
 #define BUFFER_SIZE 1024 /* 通信用的字节流大小 */
 #define MAX_INFO_SIZE 64 /* 信息字段的最大size */
 #define CLIENT_ADDR 0x81
@@ -15,8 +17,9 @@ typedef struct /* 只实现3位序号 */
 
 typedef struct
 {
-    int fd;
-    int dest;
+    int fd;      /* 文件描述符 */
+    uint8_t source;  /* 源地址 */
+    uint8_t dest;	 /* 目的地址 */
 }p_param;
 
 #endif

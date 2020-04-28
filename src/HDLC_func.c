@@ -23,9 +23,7 @@ Window sWin; /* 服务端的发送窗口 */
 int cCur; 	 /* 客户端待发送的帧编号 */
 Window cWin; /* 客户端的发送窗口 */
 
-const Flag flag = 0x7e; /* 标志位 0111 1110 */
-const Address client_addr = CLIENT_ADDR; /* 对端的地址，使用进程id */
-const Address server_addr = SERVER_ADDR; /* 对端的地址，使用进程id */
+Flag flag = 0x7e; /* 标志位 0111 1110 */
 
 ///////////////////////////////////////////////////////////////
 ////// 连接建立
@@ -46,11 +44,8 @@ int U_Framing(char *frame, uint8_t t, int dest) {
 	/* flag */
 	memcpy(frame, &flag, 1); frame+=1;
 	/* address */
-	if (dest == 1) {
-		memcpy(frame, &server_addr, 1); frame+=1;
-	} else {
-		memcpy(frame, &client_addr, 1); frame+=1;
-	}
+	uint8_t addr = dest;
+	memcpy(frame, &addr, 1); frame+=1;
 	/* control */
 	uint8_t ctrl = t;
 	memcpy(frame, &ctrl, 1); frame+=1; 
@@ -72,38 +67,32 @@ int U_Framing(char *frame, uint8_t t, int dest) {
  * 		   dest 	指明目标主机
  * 描述： HDLC连接建立包括 发送SIM帧 & 接收对方的确认帧 
  **/
-void initHDLC(int socketfd, int dest) {
+void initHDLC(p_param params) {
 	/* 构造SIM帧 */
 	char frame[FRAME_SIZE];
 	memset(frame, 0, sizeof(frame));
-	int f_len = U_Framing(frame, 0xcb, dest);
+	int f_len = U_Framing(frame, 0xcb, params.dest);
 	
 	/* 发送SIM帧 */
-	if (send(socketfd, frame, f_len, 0) == -1) {
+	if (send(params.fd, frame, f_len, 0) == -1) {
 		handleError("发送失败");
 	}
 	printf("等待无编号确认帧（UA）\n");
 
 	/* 监听对方的确认帧 */
 	memset(frame, 0, sizeof(frame));
-	uint8_t myaddr;			 // 我的地址
     uint16_t fcs;            // 计算得到的帧校验位
     uint16_t fcs_recv;		 // 帧内解析出的fcs
 
-    if (dest == 1)
-    	myaddr = client_addr;
-    else
-    	myaddr = server_addr;
-
 	while (1) {
-		int numOfReaded = recv(socketfd, frame, FRAME_SIZE, 0);
+		int numOfReaded = recv(params.fd, frame, FRAME_SIZE, 0);
         if(numOfReaded==-1) {
             handleError("读取数据出错");
         }
         frame[numOfReaded]='\0';
 
         /* 判断帧的目的地址 */
-        if((frame[1]&0xff) != myaddr){ 
+        if((frame[1]&0xff) != params.source){ 
         	printf("Its target is not me.\n");
             continue; // 不是发给“我”的，直接抛弃
         }
@@ -134,25 +123,24 @@ void initHDLC(int socketfd, int dest) {
  * 		   dest     指明目标主机
  * 描述：一直监听信道，收到请求帧后，向对方发送确认帧，连接建立成功
  **/
-void listenSIM(int socketfd, int dest) {
+void listenSIM(p_param params) {
 	char frame[FRAME_SIZE];
 	memset(frame, 0, sizeof(frame));
     uint16_t fcs;            // 计算得到的帧校验位
     uint16_t fcs_recv;		 // 帧内解析出的fcs
-	uint8_t myaddr = server_addr;
-	if (dest == 1)
-		myaddr = client_addr;
 
 	/* 监听连接初始化请求 */
 	while (true) {
-		int numOfReaded = recv(socketfd, frame, FRAME_SIZE, 0);
+		int numOfReaded = recv(params.fd, frame, FRAME_SIZE, 0);
         if(numOfReaded==-1) {
             handleError("读取数据出错");
         }
         frame[numOfReaded]='\0';
 
+        printf("source: %x\n", params.source);
+        printf("frame: %x\n", frame[1]);
 		/* 判断帧的目的地址 */
-        if((frame[1]&0xff) != myaddr){ 
+        if((frame[1]&0xff) != params.source){ 
         	printf("Its target is not me.\n");
             continue; // 不是发给“我”的，直接抛弃
         }
@@ -176,8 +164,8 @@ void listenSIM(int socketfd, int dest) {
 	}
 	/* 向对方发送确认帧 */
 	memset(frame, 0, sizeof(frame));
-	int f_len = U_Framing(frame, 0xc6, dest);
-	if (send(socketfd, frame, f_len, 0) == -1) {
+	int f_len = U_Framing(frame, 0xc6, params.dest);
+	if (send(params.fd, frame, f_len, 0) == -1) {
 		handleError("发送失败");
 	}
 	printf("HDLC 链接建立成功\n");
@@ -194,18 +182,18 @@ void listenSIM(int socketfd, int dest) {
  *         buffer 对信道比特流的模拟
  * 描述：将要传递的msg分块，并组帧放入buffer
  **/
-void splitInfo(char *msg, char *buffer, int dest) {
-	char *msg_pter = msg;
-	char *buf_pter = buffer;
-	int len = strlen(msg);
-	for (; msg_pter != msg + strlen(msg); msg_pter += MAX_INFO_SIZE) {
-		/* 长度不够Information的最大长度 || 要传送的信息本来就很短 */
-		if (strlen(msg_pter) < MAX_INFO_SIZE) { 
-			I_Framing(msg_pter, msg_pter + strlen(msg_pter), buf_pter, dest);
-			break;
-		}
-		buf_pter = I_Framing(msg_pter, msg_pter + MAX_INFO_SIZE, buf_pter, dest); /* 更新信息流指针，移动一个帧长度 */
-	}
+int splitInfo(char *msg, char *buffer, uint8_t dest) {
+    char *msg_pter = msg;
+    char *buf_pter = buffer;
+    int len = strlen(msg);
+    for (; msg_pter != msg + strlen(msg); msg_pter += MAX_INFO_SIZE) {
+        /* 长度不够Information的最大长度 || 要传送的信息本来就很短 */
+        if (strlen(msg_pter) < MAX_INFO_SIZE) { 
+            buffer = I_Framing(msg_pter, msg_pter + strlen(msg_pter), buffer, dest);
+            return (buffer - buf_pter);
+        }
+        buffer = I_Framing(msg_pter, msg_pter + MAX_INFO_SIZE, buffer, dest); /* 更新信息流指针，移动一个帧长度 */
+    }
 }
 
 /** 
@@ -216,24 +204,21 @@ void splitInfo(char *msg, char *buffer, int dest) {
  * 返回值： 信息流的下一个地址
  * 描述： 对信息进行组帧，并模拟帧的发送（帧是一帧一帧发出，但在信道上是连续的）
  **/
-char *I_Framing(char *info_beg, char *info_end, char *buf_pter, int dest) {
+char *I_Framing(char *info_beg, char *info_end, char *buf_pter, uint8_t dest) {
 	FCS fcs;
 	Control control;
+	uint8_t addr = dest;
 	char *buffer = buf_pter; /* 保留信息流起始位置buf_pter，方便计算校验和 */
 	setControl(&control, dest); /* 设置control字段，并更新窗口 */
 
 	memcpy(buffer, &flag, 1); buffer += 1; /* Flag */
-
-	if (dest == 1) {
-		memcpy(buffer, &server_addr, 1); buffer += 1; /* 目的地址为 服务端Address */
-	} else {
-		memcpy(buffer, &client_addr, 1); buffer += 1; /* 目的地址为 客户端Address */
-	}
-
+	memcpy(buffer, &addr, 1); buffer += 1; /* Address */
 	memcpy(buffer, &control, 1); buffer += 1; /* Control */
 	memcpy(buffer, info_beg, (info_end-info_beg)); buffer += (info_end-info_beg); /* Information */
-	fcs = calFCS((unsigned char *)buf_pter, (unsigned int)(buffer - buf_pter-1)); /* 计算校验和 */
+	fcs = calFCS((unsigned char *)buf_pter, (unsigned int)(buffer - buf_pter)); /* 计算校验和 */
 	memcpy(buffer, &fcs, 2); buffer += 2; /* FCS */
+
+    printFrame(buf_pter, buffer);
 
 	// buffer = bit_filling(buf_pter, buffer); /* 比特填充 */
 	return buffer;
@@ -244,11 +229,11 @@ char *I_Framing(char *info_beg, char *info_end, char *buf_pter, int dest) {
  × Params： control 待设置的控制字段
  * 描述： 对发送帧的控制字段进行设置，同时更新窗口值 
  **/
-void setControl(Control *control, int dest) {
+void setControl(Control *control, uint8_t dest) {
 	control->PF = 0x1; /* 书中只提到了为1的含义，没有提0....的确是这样！！0没用 */
 	control->NR = 0x0; /* 双向同时通信时才设置。 如果只实现单向则不需要设置 */
 	
-	if (dest == 1) {
+	if (dest == SERVER_ADDR) {
 		control->t_SM = (0x0 + cCur); /* t_SM是个组合字段 */
 		/* 更新窗口 */
 		cCur = (cCur + 1) % 8;
@@ -302,4 +287,49 @@ char *bit_filling(char *beg, char *end) {
 	for (int i=0; i<(end - beg); ++i) {
 
 	}
+}
+
+
+/** 
+ * 根据flag划分帧
+ * params: buffer 信道中的信息流
+ *         b_len  信息流的字节数
+ *         source 本机的地址（用于判断是否是发给自己的）
+ **/
+void divideBuf(char *buffer, int b_len, int source) {
+    char *f_beg; /* 一个帧的开始位置 */
+    char *f_end; /* 一个帧的结束位置 */
+    int f_len = 0;   /* 帧长度 */
+
+    f_beg = strstr(buffer, (char *)&flag);
+    while (f_beg != NULL) {
+        f_end = strstr(f_beg+1, (char *)&flag);
+
+        if (f_end) {/* 不为NULL */
+            f_len = (f_end - f_beg);
+        } else {/* 找不到Flag字段 */
+            f_len = (b_len - (f_beg-buffer));
+        }
+
+        uint8_t addr;
+        memcpy(&addr, f_beg+1, 1);
+        if (addr != source) {
+            printf("addr is error!\n");
+            /* 在这里进行丢弃，rej操作 */
+            break;
+        }
+
+        /* 进行FCS校验 */
+        uint16_t tmpfcs = calFCS(f_beg, f_len-2);
+        uint16_t fcs = 0; memcpy(&fcs, (f_beg+f_len-2), 2);
+        if(fcs != tmpfcs) {   //帧校验不通过，传输出错
+            printf("传输出错，CRC校验不通过,继续侦听SABM帧\n");
+            /* 在这里进行丢弃，rej操作 */
+            break;
+        }
+
+        printFrame(f_beg, (f_beg+f_len));
+
+        f_beg = f_end;
+    }
 }
