@@ -1,11 +1,14 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Funcs.dir/socket_IPC.c.o"
-  "CMakeFiles/Funcs.dir/tools.c.o"
+  "CMakeFiles/Funcs.dir/HDLC_lib.cc.o"
+  "CMakeFiles/Funcs.dir/MathFunctions.cc.o"
+  "CMakeFiles/Funcs.dir/signal_lib.cc.o"
+  "CMakeFiles/Funcs.dir/socket_IPC.cc.o"
+  "CMakeFiles/Funcs.dir/tools.cc.o"
   "libFuncs.pdb"
   "libFuncs.a"
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang C)
+foreach(lang CXX)
   include(CMakeFiles/Funcs.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

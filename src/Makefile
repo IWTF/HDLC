@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/huangziwen/Desktop/HDLC
+CMAKE_SOURCE_DIR = /home/huangziwen/Desktop/HDLCC
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/huangziwen/Desktop/HDLC
+CMAKE_BINARY_DIR = /home/huangziwen/Desktop/HDLCC
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/huangziwen/Desktop/HDLC && $(CMAKE_COMMAND) -E cmake_progress_start /home/huangziwen/Desktop/HDLC/CMakeFiles /home/huangziwen/Desktop/HDLC/src/CMakeFiles/progress.marks
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f CMakeFiles/Makefile2 src/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/huangziwen/Desktop/HDLC/CMakeFiles 0
+	cd /home/huangziwen/Desktop/HDLCC && $(CMAKE_COMMAND) -E cmake_progress_start /home/huangziwen/Desktop/HDLCC/CMakeFiles /home/huangziwen/Desktop/HDLCC/src/CMakeFiles/progress.marks
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f CMakeFiles/Makefile2 src/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/huangziwen/Desktop/HDLCC/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f CMakeFiles/Makefile2 src/clean
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f CMakeFiles/Makefile2 src/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,22 +97,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/huangziwen/Desktop/HDLC && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/huangziwen/Desktop/HDLCC && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/CMakeFiles/Funcs.dir/rule:
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/Funcs.dir/rule
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/Funcs.dir/rule
 .PHONY : src/CMakeFiles/Funcs.dir/rule
 
 # Convenience name for target.
@@ -122,62 +122,143 @@ Funcs: src/CMakeFiles/Funcs.dir/rule
 
 # fast build rule for target.
 Funcs/fast:
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/build
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/build
 .PHONY : Funcs/fast
 
-socket_IPC.o: socket_IPC.c.o
+HDLC_lib.o: HDLC_lib.cc.o
+
+.PHONY : HDLC_lib.o
+
+# target to build an object file
+HDLC_lib.cc.o:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o
+.PHONY : HDLC_lib.cc.o
+
+HDLC_lib.i: HDLC_lib.cc.i
+
+.PHONY : HDLC_lib.i
+
+# target to preprocess a source file
+HDLC_lib.cc.i:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/HDLC_lib.cc.i
+.PHONY : HDLC_lib.cc.i
+
+HDLC_lib.s: HDLC_lib.cc.s
+
+.PHONY : HDLC_lib.s
+
+# target to generate assembly for a file
+HDLC_lib.cc.s:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/HDLC_lib.cc.s
+.PHONY : HDLC_lib.cc.s
+
+MathFunctions.o: MathFunctions.cc.o
+
+.PHONY : MathFunctions.o
+
+# target to build an object file
+MathFunctions.cc.o:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/MathFunctions.cc.o
+.PHONY : MathFunctions.cc.o
+
+MathFunctions.i: MathFunctions.cc.i
+
+.PHONY : MathFunctions.i
+
+# target to preprocess a source file
+MathFunctions.cc.i:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/MathFunctions.cc.i
+.PHONY : MathFunctions.cc.i
+
+MathFunctions.s: MathFunctions.cc.s
+
+.PHONY : MathFunctions.s
+
+# target to generate assembly for a file
+MathFunctions.cc.s:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/MathFunctions.cc.s
+.PHONY : MathFunctions.cc.s
+
+signal_lib.o: signal_lib.cc.o
+
+.PHONY : signal_lib.o
+
+# target to build an object file
+signal_lib.cc.o:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/signal_lib.cc.o
+.PHONY : signal_lib.cc.o
+
+signal_lib.i: signal_lib.cc.i
+
+.PHONY : signal_lib.i
+
+# target to preprocess a source file
+signal_lib.cc.i:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/signal_lib.cc.i
+.PHONY : signal_lib.cc.i
+
+signal_lib.s: signal_lib.cc.s
+
+.PHONY : signal_lib.s
+
+# target to generate assembly for a file
+signal_lib.cc.s:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/signal_lib.cc.s
+.PHONY : signal_lib.cc.s
+
+socket_IPC.o: socket_IPC.cc.o
 
 .PHONY : socket_IPC.o
 
 # target to build an object file
-socket_IPC.c.o:
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/socket_IPC.c.o
-.PHONY : socket_IPC.c.o
+socket_IPC.cc.o:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/socket_IPC.cc.o
+.PHONY : socket_IPC.cc.o
 
-socket_IPC.i: socket_IPC.c.i
+socket_IPC.i: socket_IPC.cc.i
 
 .PHONY : socket_IPC.i
 
 # target to preprocess a source file
-socket_IPC.c.i:
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/socket_IPC.c.i
-.PHONY : socket_IPC.c.i
+socket_IPC.cc.i:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/socket_IPC.cc.i
+.PHONY : socket_IPC.cc.i
 
-socket_IPC.s: socket_IPC.c.s
+socket_IPC.s: socket_IPC.cc.s
 
 .PHONY : socket_IPC.s
 
 # target to generate assembly for a file
-socket_IPC.c.s:
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/socket_IPC.c.s
-.PHONY : socket_IPC.c.s
+socket_IPC.cc.s:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/socket_IPC.cc.s
+.PHONY : socket_IPC.cc.s
 
-tools.o: tools.c.o
+tools.o: tools.cc.o
 
 .PHONY : tools.o
 
 # target to build an object file
-tools.c.o:
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/tools.c.o
-.PHONY : tools.c.o
+tools.cc.o:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/tools.cc.o
+.PHONY : tools.cc.o
 
-tools.i: tools.c.i
+tools.i: tools.cc.i
 
 .PHONY : tools.i
 
 # target to preprocess a source file
-tools.c.i:
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/tools.c.i
-.PHONY : tools.c.i
+tools.cc.i:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/tools.cc.i
+.PHONY : tools.cc.i
 
-tools.s: tools.c.s
+tools.s: tools.cc.s
 
 .PHONY : tools.s
 
 # target to generate assembly for a file
-tools.c.s:
-	cd /home/huangziwen/Desktop/HDLC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/tools.c.s
-.PHONY : tools.c.s
+tools.cc.s:
+	cd /home/huangziwen/Desktop/HDLCC && $(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/tools.cc.s
+.PHONY : tools.cc.s
 
 # Help Target
 help:
@@ -188,6 +269,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Funcs"
+	@echo "... HDLC_lib.o"
+	@echo "... HDLC_lib.i"
+	@echo "... HDLC_lib.s"
+	@echo "... MathFunctions.o"
+	@echo "... MathFunctions.i"
+	@echo "... MathFunctions.s"
+	@echo "... signal_lib.o"
+	@echo "... signal_lib.i"
+	@echo "... signal_lib.s"
 	@echo "... socket_IPC.o"
 	@echo "... socket_IPC.i"
 	@echo "... socket_IPC.s"
@@ -205,6 +295,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/huangziwen/Desktop/HDLC && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/huangziwen/Desktop/HDLCC && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

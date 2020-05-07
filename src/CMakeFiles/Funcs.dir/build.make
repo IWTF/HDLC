@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/huangziwen/Desktop/HDLC
+CMAKE_SOURCE_DIR = /home/huangziwen/Desktop/HDLCC
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/huangziwen/Desktop/HDLC
+CMAKE_BINARY_DIR = /home/huangziwen/Desktop/HDLCC
 
 # Include any dependencies generated for this target.
 include src/CMakeFiles/Funcs.dir/depend.make
@@ -57,85 +57,166 @@ include src/CMakeFiles/Funcs.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/Funcs.dir/flags.make
 
-src/CMakeFiles/Funcs.dir/socket_IPC.c.o: src/CMakeFiles/Funcs.dir/flags.make
-src/CMakeFiles/Funcs.dir/socket_IPC.c.o: src/socket_IPC.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/huangziwen/Desktop/HDLC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object src/CMakeFiles/Funcs.dir/socket_IPC.c.o"
-	cd /home/huangziwen/Desktop/HDLC/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Funcs.dir/socket_IPC.c.o   -c /home/huangziwen/Desktop/HDLC/src/socket_IPC.c
+src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o: src/CMakeFiles/Funcs.dir/flags.make
+src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o: src/HDLC_lib.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/huangziwen/Desktop/HDLCC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Funcs.dir/HDLC_lib.cc.o -c /home/huangziwen/Desktop/HDLCC/src/HDLC_lib.cc
 
-src/CMakeFiles/Funcs.dir/socket_IPC.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Funcs.dir/socket_IPC.c.i"
-	cd /home/huangziwen/Desktop/HDLC/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/huangziwen/Desktop/HDLC/src/socket_IPC.c > CMakeFiles/Funcs.dir/socket_IPC.c.i
+src/CMakeFiles/Funcs.dir/HDLC_lib.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Funcs.dir/HDLC_lib.cc.i"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/huangziwen/Desktop/HDLCC/src/HDLC_lib.cc > CMakeFiles/Funcs.dir/HDLC_lib.cc.i
 
-src/CMakeFiles/Funcs.dir/socket_IPC.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Funcs.dir/socket_IPC.c.s"
-	cd /home/huangziwen/Desktop/HDLC/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/huangziwen/Desktop/HDLC/src/socket_IPC.c -o CMakeFiles/Funcs.dir/socket_IPC.c.s
+src/CMakeFiles/Funcs.dir/HDLC_lib.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Funcs.dir/HDLC_lib.cc.s"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/huangziwen/Desktop/HDLCC/src/HDLC_lib.cc -o CMakeFiles/Funcs.dir/HDLC_lib.cc.s
 
-src/CMakeFiles/Funcs.dir/socket_IPC.c.o.requires:
+src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o.requires:
 
-.PHONY : src/CMakeFiles/Funcs.dir/socket_IPC.c.o.requires
+.PHONY : src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o.requires
 
-src/CMakeFiles/Funcs.dir/socket_IPC.c.o.provides: src/CMakeFiles/Funcs.dir/socket_IPC.c.o.requires
-	$(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/socket_IPC.c.o.provides.build
-.PHONY : src/CMakeFiles/Funcs.dir/socket_IPC.c.o.provides
+src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o.provides: src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o.requires
+	$(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o.provides.build
+.PHONY : src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o.provides
 
-src/CMakeFiles/Funcs.dir/socket_IPC.c.o.provides.build: src/CMakeFiles/Funcs.dir/socket_IPC.c.o
+src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o.provides.build: src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o
 
 
-src/CMakeFiles/Funcs.dir/tools.c.o: src/CMakeFiles/Funcs.dir/flags.make
-src/CMakeFiles/Funcs.dir/tools.c.o: src/tools.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/huangziwen/Desktop/HDLC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object src/CMakeFiles/Funcs.dir/tools.c.o"
-	cd /home/huangziwen/Desktop/HDLC/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Funcs.dir/tools.c.o   -c /home/huangziwen/Desktop/HDLC/src/tools.c
+src/CMakeFiles/Funcs.dir/MathFunctions.cc.o: src/CMakeFiles/Funcs.dir/flags.make
+src/CMakeFiles/Funcs.dir/MathFunctions.cc.o: src/MathFunctions.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/huangziwen/Desktop/HDLCC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/Funcs.dir/MathFunctions.cc.o"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Funcs.dir/MathFunctions.cc.o -c /home/huangziwen/Desktop/HDLCC/src/MathFunctions.cc
 
-src/CMakeFiles/Funcs.dir/tools.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Funcs.dir/tools.c.i"
-	cd /home/huangziwen/Desktop/HDLC/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/huangziwen/Desktop/HDLC/src/tools.c > CMakeFiles/Funcs.dir/tools.c.i
+src/CMakeFiles/Funcs.dir/MathFunctions.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Funcs.dir/MathFunctions.cc.i"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/huangziwen/Desktop/HDLCC/src/MathFunctions.cc > CMakeFiles/Funcs.dir/MathFunctions.cc.i
 
-src/CMakeFiles/Funcs.dir/tools.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Funcs.dir/tools.c.s"
-	cd /home/huangziwen/Desktop/HDLC/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/huangziwen/Desktop/HDLC/src/tools.c -o CMakeFiles/Funcs.dir/tools.c.s
+src/CMakeFiles/Funcs.dir/MathFunctions.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Funcs.dir/MathFunctions.cc.s"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/huangziwen/Desktop/HDLCC/src/MathFunctions.cc -o CMakeFiles/Funcs.dir/MathFunctions.cc.s
 
-src/CMakeFiles/Funcs.dir/tools.c.o.requires:
+src/CMakeFiles/Funcs.dir/MathFunctions.cc.o.requires:
 
-.PHONY : src/CMakeFiles/Funcs.dir/tools.c.o.requires
+.PHONY : src/CMakeFiles/Funcs.dir/MathFunctions.cc.o.requires
 
-src/CMakeFiles/Funcs.dir/tools.c.o.provides: src/CMakeFiles/Funcs.dir/tools.c.o.requires
-	$(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/tools.c.o.provides.build
-.PHONY : src/CMakeFiles/Funcs.dir/tools.c.o.provides
+src/CMakeFiles/Funcs.dir/MathFunctions.cc.o.provides: src/CMakeFiles/Funcs.dir/MathFunctions.cc.o.requires
+	$(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/MathFunctions.cc.o.provides.build
+.PHONY : src/CMakeFiles/Funcs.dir/MathFunctions.cc.o.provides
 
-src/CMakeFiles/Funcs.dir/tools.c.o.provides.build: src/CMakeFiles/Funcs.dir/tools.c.o
+src/CMakeFiles/Funcs.dir/MathFunctions.cc.o.provides.build: src/CMakeFiles/Funcs.dir/MathFunctions.cc.o
+
+
+src/CMakeFiles/Funcs.dir/signal_lib.cc.o: src/CMakeFiles/Funcs.dir/flags.make
+src/CMakeFiles/Funcs.dir/signal_lib.cc.o: src/signal_lib.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/huangziwen/Desktop/HDLCC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/Funcs.dir/signal_lib.cc.o"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Funcs.dir/signal_lib.cc.o -c /home/huangziwen/Desktop/HDLCC/src/signal_lib.cc
+
+src/CMakeFiles/Funcs.dir/signal_lib.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Funcs.dir/signal_lib.cc.i"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/huangziwen/Desktop/HDLCC/src/signal_lib.cc > CMakeFiles/Funcs.dir/signal_lib.cc.i
+
+src/CMakeFiles/Funcs.dir/signal_lib.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Funcs.dir/signal_lib.cc.s"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/huangziwen/Desktop/HDLCC/src/signal_lib.cc -o CMakeFiles/Funcs.dir/signal_lib.cc.s
+
+src/CMakeFiles/Funcs.dir/signal_lib.cc.o.requires:
+
+.PHONY : src/CMakeFiles/Funcs.dir/signal_lib.cc.o.requires
+
+src/CMakeFiles/Funcs.dir/signal_lib.cc.o.provides: src/CMakeFiles/Funcs.dir/signal_lib.cc.o.requires
+	$(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/signal_lib.cc.o.provides.build
+.PHONY : src/CMakeFiles/Funcs.dir/signal_lib.cc.o.provides
+
+src/CMakeFiles/Funcs.dir/signal_lib.cc.o.provides.build: src/CMakeFiles/Funcs.dir/signal_lib.cc.o
+
+
+src/CMakeFiles/Funcs.dir/socket_IPC.cc.o: src/CMakeFiles/Funcs.dir/flags.make
+src/CMakeFiles/Funcs.dir/socket_IPC.cc.o: src/socket_IPC.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/huangziwen/Desktop/HDLCC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/Funcs.dir/socket_IPC.cc.o"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Funcs.dir/socket_IPC.cc.o -c /home/huangziwen/Desktop/HDLCC/src/socket_IPC.cc
+
+src/CMakeFiles/Funcs.dir/socket_IPC.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Funcs.dir/socket_IPC.cc.i"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/huangziwen/Desktop/HDLCC/src/socket_IPC.cc > CMakeFiles/Funcs.dir/socket_IPC.cc.i
+
+src/CMakeFiles/Funcs.dir/socket_IPC.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Funcs.dir/socket_IPC.cc.s"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/huangziwen/Desktop/HDLCC/src/socket_IPC.cc -o CMakeFiles/Funcs.dir/socket_IPC.cc.s
+
+src/CMakeFiles/Funcs.dir/socket_IPC.cc.o.requires:
+
+.PHONY : src/CMakeFiles/Funcs.dir/socket_IPC.cc.o.requires
+
+src/CMakeFiles/Funcs.dir/socket_IPC.cc.o.provides: src/CMakeFiles/Funcs.dir/socket_IPC.cc.o.requires
+	$(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/socket_IPC.cc.o.provides.build
+.PHONY : src/CMakeFiles/Funcs.dir/socket_IPC.cc.o.provides
+
+src/CMakeFiles/Funcs.dir/socket_IPC.cc.o.provides.build: src/CMakeFiles/Funcs.dir/socket_IPC.cc.o
+
+
+src/CMakeFiles/Funcs.dir/tools.cc.o: src/CMakeFiles/Funcs.dir/flags.make
+src/CMakeFiles/Funcs.dir/tools.cc.o: src/tools.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/huangziwen/Desktop/HDLCC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/Funcs.dir/tools.cc.o"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Funcs.dir/tools.cc.o -c /home/huangziwen/Desktop/HDLCC/src/tools.cc
+
+src/CMakeFiles/Funcs.dir/tools.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Funcs.dir/tools.cc.i"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/huangziwen/Desktop/HDLCC/src/tools.cc > CMakeFiles/Funcs.dir/tools.cc.i
+
+src/CMakeFiles/Funcs.dir/tools.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Funcs.dir/tools.cc.s"
+	cd /home/huangziwen/Desktop/HDLCC/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/huangziwen/Desktop/HDLCC/src/tools.cc -o CMakeFiles/Funcs.dir/tools.cc.s
+
+src/CMakeFiles/Funcs.dir/tools.cc.o.requires:
+
+.PHONY : src/CMakeFiles/Funcs.dir/tools.cc.o.requires
+
+src/CMakeFiles/Funcs.dir/tools.cc.o.provides: src/CMakeFiles/Funcs.dir/tools.cc.o.requires
+	$(MAKE) -f src/CMakeFiles/Funcs.dir/build.make src/CMakeFiles/Funcs.dir/tools.cc.o.provides.build
+.PHONY : src/CMakeFiles/Funcs.dir/tools.cc.o.provides
+
+src/CMakeFiles/Funcs.dir/tools.cc.o.provides.build: src/CMakeFiles/Funcs.dir/tools.cc.o
 
 
 # Object files for target Funcs
 Funcs_OBJECTS = \
-"CMakeFiles/Funcs.dir/socket_IPC.c.o" \
-"CMakeFiles/Funcs.dir/tools.c.o"
+"CMakeFiles/Funcs.dir/HDLC_lib.cc.o" \
+"CMakeFiles/Funcs.dir/MathFunctions.cc.o" \
+"CMakeFiles/Funcs.dir/signal_lib.cc.o" \
+"CMakeFiles/Funcs.dir/socket_IPC.cc.o" \
+"CMakeFiles/Funcs.dir/tools.cc.o"
 
 # External object files for target Funcs
 Funcs_EXTERNAL_OBJECTS =
 
-src/libFuncs.a: src/CMakeFiles/Funcs.dir/socket_IPC.c.o
-src/libFuncs.a: src/CMakeFiles/Funcs.dir/tools.c.o
+src/libFuncs.a: src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o
+src/libFuncs.a: src/CMakeFiles/Funcs.dir/MathFunctions.cc.o
+src/libFuncs.a: src/CMakeFiles/Funcs.dir/signal_lib.cc.o
+src/libFuncs.a: src/CMakeFiles/Funcs.dir/socket_IPC.cc.o
+src/libFuncs.a: src/CMakeFiles/Funcs.dir/tools.cc.o
 src/libFuncs.a: src/CMakeFiles/Funcs.dir/build.make
 src/libFuncs.a: src/CMakeFiles/Funcs.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/huangziwen/Desktop/HDLC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C static library libFuncs.a"
-	cd /home/huangziwen/Desktop/HDLC/src && $(CMAKE_COMMAND) -P CMakeFiles/Funcs.dir/cmake_clean_target.cmake
-	cd /home/huangziwen/Desktop/HDLC/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Funcs.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/huangziwen/Desktop/HDLCC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libFuncs.a"
+	cd /home/huangziwen/Desktop/HDLCC/src && $(CMAKE_COMMAND) -P CMakeFiles/Funcs.dir/cmake_clean_target.cmake
+	cd /home/huangziwen/Desktop/HDLCC/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Funcs.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 src/CMakeFiles/Funcs.dir/build: src/libFuncs.a
 
 .PHONY : src/CMakeFiles/Funcs.dir/build
 
-src/CMakeFiles/Funcs.dir/requires: src/CMakeFiles/Funcs.dir/socket_IPC.c.o.requires
-src/CMakeFiles/Funcs.dir/requires: src/CMakeFiles/Funcs.dir/tools.c.o.requires
+src/CMakeFiles/Funcs.dir/requires: src/CMakeFiles/Funcs.dir/HDLC_lib.cc.o.requires
+src/CMakeFiles/Funcs.dir/requires: src/CMakeFiles/Funcs.dir/MathFunctions.cc.o.requires
+src/CMakeFiles/Funcs.dir/requires: src/CMakeFiles/Funcs.dir/signal_lib.cc.o.requires
+src/CMakeFiles/Funcs.dir/requires: src/CMakeFiles/Funcs.dir/socket_IPC.cc.o.requires
+src/CMakeFiles/Funcs.dir/requires: src/CMakeFiles/Funcs.dir/tools.cc.o.requires
 
 .PHONY : src/CMakeFiles/Funcs.dir/requires
 
 src/CMakeFiles/Funcs.dir/clean:
-	cd /home/huangziwen/Desktop/HDLC/src && $(CMAKE_COMMAND) -P CMakeFiles/Funcs.dir/cmake_clean.cmake
+	cd /home/huangziwen/Desktop/HDLCC/src && $(CMAKE_COMMAND) -P CMakeFiles/Funcs.dir/cmake_clean.cmake
 .PHONY : src/CMakeFiles/Funcs.dir/clean
 
 src/CMakeFiles/Funcs.dir/depend:
-	cd /home/huangziwen/Desktop/HDLC && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/huangziwen/Desktop/HDLC /home/huangziwen/Desktop/HDLC/src /home/huangziwen/Desktop/HDLC /home/huangziwen/Desktop/HDLC/src /home/huangziwen/Desktop/HDLC/src/CMakeFiles/Funcs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/huangziwen/Desktop/HDLCC && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/huangziwen/Desktop/HDLCC /home/huangziwen/Desktop/HDLCC/src /home/huangziwen/Desktop/HDLCC /home/huangziwen/Desktop/HDLCC/src /home/huangziwen/Desktop/HDLCC/src/CMakeFiles/Funcs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : src/CMakeFiles/Funcs.dir/depend
 

@@ -1,1 +1,1 @@
-/usr/bin/cc     CMakeFiles/client.dir/client.c.o  -o client -rdynamic -lpthread src/libFuncs.a -lpthread -lm 
+/usr/bin/c++    -rdynamic CMakeFiles/client.dir/client.cc.o  -o client -lm -lpthread src/libFuncs.a -lm -lpthread 

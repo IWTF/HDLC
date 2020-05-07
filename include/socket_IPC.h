@@ -1,20 +1,21 @@
 #ifndef __SOCKET_IPC_H__
 #define __SOCKET_IPC_H__
 
-#include "global.h"
+#include <stdint.h>
 
 /* 公共函数 */
-void show_menu();
-void *pthread_send(void *arg);
 void *pthread_recv(void *arg);
-void HDLC_option(p_param params);
-void HDLC_start(p_param params);
 
 /* 服务端函数 */
 void bindToAddress(int socketfd);
-void handleRequest(int serverSocket);
+void *pthread_server_send(void *arg);
+void server_run(int socket);
+int handleRequest(int socketfd);
 
 /* 客户端函数 */
 void connectServer(int socketfd);
+void *pthread_client_send(void *arg);
+void client_run(int socket);
+
 
 #endif

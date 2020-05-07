@@ -1,6 +1,0 @@
-/home/huangziwen/Desktop/HDLC/Demo/CMakeFiles/rebuild_cache.dir
-/home/huangziwen/Desktop/HDLC/Demo/CMakeFiles/edit_cache.dir
-/home/huangziwen/Desktop/HDLC/Demo/CMakeFiles/Demo.dir
-/home/huangziwen/Desktop/HDLC/Demo/math/CMakeFiles/rebuild_cache.dir
-/home/huangziwen/Desktop/HDLC/Demo/math/CMakeFiles/edit_cache.dir
-/home/huangziwen/Desktop/HDLC/Demo/math/CMakeFiles/MathFunctions.dir

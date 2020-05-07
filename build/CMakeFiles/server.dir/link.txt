@@ -1,1 +1,1 @@
-/usr/bin/cc     CMakeFiles/server.dir/server.c.o  -o server -rdynamic -lpthread src/libFuncs.a -lpthread -lm 
+/usr/bin/c++    -rdynamic CMakeFiles/server.dir/server.cc.o  -o server -lm -lpthread src/libFuncs.a -lm -lpthread 

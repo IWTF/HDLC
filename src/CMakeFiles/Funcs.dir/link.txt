@@ -1,2 +1,2 @@
-/usr/bin/ar qc libFuncs.a  CMakeFiles/Funcs.dir/socket_IPC.c.o CMakeFiles/Funcs.dir/tools.c.o
+/usr/bin/ar qc libFuncs.a  CMakeFiles/Funcs.dir/HDLC_lib.cc.o CMakeFiles/Funcs.dir/MathFunctions.cc.o CMakeFiles/Funcs.dir/signal_lib.cc.o CMakeFiles/Funcs.dir/socket_IPC.cc.o CMakeFiles/Funcs.dir/tools.cc.o
 /usr/bin/ranlib libFuncs.a
